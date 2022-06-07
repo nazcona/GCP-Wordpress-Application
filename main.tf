@@ -55,43 +55,43 @@ resource "null_resource" "enable-apis" {
 
 resource "google_compute_subnetwork" "public1" {
   name          = "public1"
-  ip_cidr_range = "10.0.1.0/16"
-  region        = "us-central1"
+  ip_cidr_range = var.public1_cidr
+  region        = var.region
   network       = google_compute_network.vpc_network.id
 }
 
 resource "google_compute_subnetwork" "public2" {
   name          = "public2"
-  ip_cidr_range = "10.0.2.0/16"
-  region        = "us-central1"
+  ip_cidr_range = var.public2_cidr
+  region        = var.region
   network       = google_compute_network.vpc_network.id
 }
 
 resource "google_compute_subnetwork" "public3" {
   name          = "public3"
-  ip_cidr_range = "10.0.3.0/16"
-  region        = "us-central1"
+  ip_cidr_range = var.public3_cidr
+  region        = var.region
   network       = google_compute_network.vpc_network.id
 }
 
 resource "google_compute_subnetwork" "private1" {
   name          = "private1"
-  ip_cidr_range = "10.0.101.0/16"
-  region        = "us-central1"
+  ip_cidr_range = var.private1_cidr
+  region        = var.region
   network       = google_compute_network.vpc_network.id
 }
 
 resource "google_compute_subnetwork" "private2" {
   name          = "private2"
-  ip_cidr_range = "10.0.102.0/16"
-  region        = "us-central1"
+  ip_cidr_range = var.private2_cidr
+  region        = var.region
   network       = google_compute_network.vpc_network.id
 }
 
 resource "google_compute_subnetwork" "private" {
   name          = "private3"
-  ip_cidr_range = "10.0.103.0/16"
-  region        = "us-central1"
+  ip_cidr_range = var.private3_cidr
+  region        = var.region
   network       = google_compute_network.vpc_network.id
 }
 
