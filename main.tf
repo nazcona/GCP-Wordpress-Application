@@ -102,3 +102,26 @@ resource "google_compute_network" "vpc_network" {
   routing_mode            = "GLOBAL"
 }
 
+#Cloud Router
+resource "google_compute_router" "router" {
+  name                          = "router"
+  network                       = google_compute_network.vpc_network.id
+  encrypted_interconnect_router = true
+  bgp {
+    asn = 64514
+  }
+}
+
+#NAT
+
+resource "google_compute_router_nat" "nat" {
+  name                               = "my-router-nat"
+  router                             = google_compute_router.router.name
+  region                             = google_compute_router.router.region
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNET_WORKS"
+
+  subnetwork {
+    name = "private1"
+    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
+  }
