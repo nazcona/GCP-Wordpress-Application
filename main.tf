@@ -11,8 +11,8 @@ resource "random_password" "password" {
   upper   = false
 }
 
-resource "google_project" "gcp-project" {
-  name            = "gcp-project"
+resource "google_project" "Terraform-GCP" {
+  name            = "Terraform-GCP"
   project_id      = random_password.password.result
   billing_account = data.google_billing_account.acct.id
 }
@@ -23,7 +23,7 @@ resource "null_resource" "set-project" {
   }
 
   provisioner "local-exec" {
-    command = "gcloud config set project ${google_project.gcp-project.project_id}"
+    command = "gcloud config set project ${google_project.Terraform-GCP.project_id}"
   }
 }
 
@@ -36,11 +36,11 @@ resource "null_resource" "unset-project" {
 
 resource "null_resource" "enable-apis" {
   depends_on = [
-    google_project.gcp-project,
+    google_project.Terraform-GCP,
     null_resource.set-project
   ]
   triggers = {
-    always_run = "${timestamp()}" 
+    always_run = "${timestamp()}"
   }
 
   provisioner "local-exec" {
@@ -88,7 +88,7 @@ resource "google_compute_subnetwork" "private2" {
   network       = google_compute_network.vpc_network.id
 }
 
-resource "google_compute_subnetwork" "private" {
+resource "google_compute_subnetwork" "private3" {
   name          = "private3"
   ip_cidr_range = var.private3_cidr
   region        = var.region
@@ -96,7 +96,7 @@ resource "google_compute_subnetwork" "private" {
 }
 
 resource "google_compute_network" "vpc_network" {
-  project                 = google_project.gcp-project.project_id
+  project                 = google_project.Terraform-GCP.project_id
   name                    = "VPC"
   auto_create_subnetworks = false
   routing_mode            = "GLOBAL"
@@ -113,15 +113,10 @@ resource "google_compute_router" "router" {
 }
 
 #NAT
-
 resource "google_compute_router_nat" "nat" {
   name                               = "my-router-nat"
   router                             = google_compute_router.router.name
   region                             = google_compute_router.router.region
   nat_ip_allocate_option             = "AUTO_ONLY"
-  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNET_WORKS"
-
-  subnetwork {
-    name = "private1"
-    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
-  }
+  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
+}
