@@ -125,3 +125,20 @@ resource "google_compute_router_nat" "nat" {
     name = "private1"
     source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
+}
+
+#Firewall
+resource "google_compute_firewall" "allow_http" {
+  name    = "allow-http-rule"
+  network = google_compute_network.vpc_network.id
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+}
+
