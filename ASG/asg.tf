@@ -24,7 +24,7 @@ resource "google_compute_instance_group_manager" "gmanager" {
 	zone = var.asg_config["zone"]
 	name = var.asg_config["instance_group_manager_name"]
 	version {
-		instance_template = google_compute_instance_template.GCPteam-template.id
+		instance_template = google_compute_instance_template.gcpteam-template.id
 		name = "primary"
 	}
 	target_pools = [google_compute_target_pool.default-target.self_link]
@@ -32,7 +32,7 @@ resource "google_compute_instance_group_manager" "gmanager" {
 	}
 
 
-resource "google_compute_instance_template" "GCPteam-template" {
+resource "google_compute_instance_template" "gcpteam-template" {
 	name = var.asg_config["instance_template_name"]
 	machine_type = var.asg_config["machine_type"]
 	can_ip_forward = false

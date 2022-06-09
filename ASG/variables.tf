@@ -4,7 +4,7 @@ variable "vm_config" {
         vpc_name = "VPC"
 		region = "us-central1"
 		zone = "us-central-c"
-		instance_name = "GCPteam-instance"
+		instance_name = "gcpteam-instance"
 		machine_type = "n1-standard-1"
 		image = "centos-cloud/centos-7"
 		firewall_name = "http-fw" 
@@ -27,8 +27,8 @@ variable "asg_config" {
 	default = {
 		region = "us-central1"
 		zone = "us-central-c"
-		target-pool-name = "GCPteam-target-pool"
-		autoscaler = "GCPteam-autoscaler"
+		target-pool-name = "gcpteam-target-pool"
+		autoscaler = "gcpteam-autoscaler"
 		max_replicas = 4
 		min_replicas = 1
 		cooldown_period = 60
