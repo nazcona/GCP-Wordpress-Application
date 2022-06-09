@@ -12,3 +12,10 @@ resource "google_sql_database_instance" "instance" {
 	}
 	deletion_protection = var.config["deletion_protection"]
 }
+
+resource "google_sql_user" "users" {
+  name     = "team3"
+  instance = google_sql_database_instance.instance.name
+  host     = "changeto-our-domain.com"
+  password = "changeme"
+}
