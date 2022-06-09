@@ -1,3 +1,3 @@
 provider "google" {
-	region = var.config["region"]
+  region = var.db_region
 }
