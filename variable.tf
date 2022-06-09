@@ -1,11 +1,12 @@
-variable "project" {
-  description = "Provide name of project"
+variable "billing_acct" {
+  description = "Please provide billing account name"
   type        = string
-  default     = ""
 }
 
 variable "region" {
-  default = "us-central1"
+  default     = "us-central1"
+  description = "Please provide a region to build a VPC"
+  type        = string
 }
 
 variable "public1_cidr" {
@@ -43,4 +44,12 @@ variable "private3_cidr" {
   type        = string
   default     = ""
 }
+
+variable "firewall_name" {
+  description = "Please provide a firewall name to build a VPC"
+  type        = string
+  default     = "allow-http"
+}
+
+
 
