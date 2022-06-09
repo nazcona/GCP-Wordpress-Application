@@ -103,7 +103,7 @@ resource "google_compute_network" "vpc_network" {
   routing_mode            = "GLOBAL"
 }
 
-#Cloud Router
+# Cloud Router
 resource "google_compute_router" "router" {
   name                          = "router"
   network                       = google_compute_network.vpc_network.id
@@ -113,11 +113,25 @@ resource "google_compute_router" "router" {
   }
 }
 
-#NAT
+# NAT
 resource "google_compute_router_nat" "nat" {
   name                               = "my-router-nat"
   router                             = google_compute_router.router.name
   region                             = google_compute_router.router.region
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
+}
+
+# Firewall
+resource "google_compute_firewall" "allow_http" {
+  name    = "allow-http-rule"
+  network = google_compute_network.vpc_network.id
+
+  allow {
+    protocol = "icmp"
+  }
+  allow {
+    protocol = "tcp"
+    ports    = ["80","443", "22", "3306"]
+  }
 }
