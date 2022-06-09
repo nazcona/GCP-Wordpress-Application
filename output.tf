@@ -9,15 +9,11 @@ output "vpc_cidr_block" {
 
 
 output "NAT" {
-  value = google_compute_router_nat.id
+  value = google_compute_router_nat.nat.id
 }
 
-output "firewall" "allow_http" {
+output "allow_http" {
   value = google_compute_firewall.allow_http.name
-}
-
-output "gcp-project_name" {
-  value = google_project.id
 }
 
 output "vpc_cidr_block" {
@@ -55,22 +51,20 @@ output "private_subnets_ipv6_cidr_blocks" {
 }
 
 
-output "public_subnets" {
+output "public_subnet1" {
   value = google_compute_subnetwork.public1.id
 
 }
 
-output "public_subnets" {
+output "public_subnet2" {
   value = google_compute_subnetwork.public2.id
 }
 
-output "public_subnets" {
+output "public_subnet3" {
   value = google_compute_subnetwork.public3.id
 }
 
-output "public_subnet_arns" {
-  value = google_compute_subnetwork.public_subnet_arns
-}
+
 output "public_subnets_cdir_blocks" {
   value = google_compute_subnetwork.public_subnets_cdir_blocks
 }

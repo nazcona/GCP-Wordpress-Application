@@ -54,6 +54,13 @@
 #   }
 # }
 
+resource "google_compute_network" "vpc_network" {
+  project                 = "terraform-gcp-352718"
+  name                    = "VPC"
+  auto_create_subnetworks = false
+  routing_mode            = "GLOBAL"
+}
+
 resource "google_compute_subnetwork" "public1" {
   name          = "public1"
   ip_cidr_range = var.public1_cidr
@@ -96,13 +103,6 @@ resource "google_compute_subnetwork" "private3" {
   network       = google_compute_network.vpc_network.id
 }
 
-resource "google_compute_network" "vpc_network" {
-  project                 = google_project.Terraform-GCP.project_id
-  name                    = "VPC"
-  auto_create_subnetworks = false
-  routing_mode            = "GLOBAL"
-}
-
 # Cloud Router
 resource "google_compute_router" "router" {
   name                          = "router"
@@ -126,12 +126,13 @@ resource "google_compute_router_nat" "nat" {
 resource "google_compute_firewall" "allow_http" {
   name    = "allow-http-rule"
   network = google_compute_network.vpc_network.id
+  source_ranges = ["0.0.0.0/0"]
 
   allow {
     protocol = "icmp"
   }
   allow {
     protocol = "tcp"
-    ports    = ["80","443", "22", "3306"]
+    ports    = ["80", "443", "22", "3306"]
   }
 }

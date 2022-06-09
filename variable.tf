@@ -1,6 +1,7 @@
 variable "billing_acct" {
   description = "Please provide billing account name"
   type        = string
+  default     = ""
 }
 
 variable "region" {
