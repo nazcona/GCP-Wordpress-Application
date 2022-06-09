@@ -28,7 +28,7 @@ resource "google_compute_instance_group_manager" "gmanager" {
 		name = "primary"
 	}
 	target_pools = [google_compute_target_pool.default-target.self_link]
-		base_instance_name = "GCPteam-base-instance"
+		base_instance_name = "gcpteam-base-instance"
 	}
 
 
