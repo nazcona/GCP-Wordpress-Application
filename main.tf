@@ -1,5 +1,5 @@
 data "google_billing_account" "acct" {
-  display_name = "My Billing Account"
+  display_name = var.billing_acct
   open         = true
 }
 
@@ -12,7 +12,7 @@ resource "random_password" "password" {
 }
 
 resource "google_project" "gcp-project" {
-  name            = "gcp-project"
+  name            = var.project_name
   project_id      = random_password.password.result
   billing_account = data.google_billing_account.acct.id
 }
@@ -129,7 +129,7 @@ resource "google_compute_router_nat" "nat" {
 
 #Firewall
 resource "google_compute_firewall" "allow_http" {
-  name    = "allow-http-rule"
+  name    = var.firewall_name
   network = google_compute_network.vpc_network.id
 
   allow {
