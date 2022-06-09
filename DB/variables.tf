@@ -1,10 +1,30 @@
 
-		variable "db_name = "gcp-project"
-		variable "db_region = "us-central1"
-		variable "db_tier = "db-f1-micro"
-		variable "db_deletion_protection = "false"
-		variable "db_database_version = "MYSQL_8_0"
+variable "db_name" {
+  description = "The name of the default database"
+  type        = string
+  default     = "default"
+}
+variable "db_region" {
+  description = "The region of the default database"
+  type        = string
+  default     = "default"
+}
 
+variable "db_tier" {
+  description = "The tier of the default database"
+  type        = string
+  default     = "default"
+}
+variable "db_deletion_protection" {
+  description = "The deletion protection of the default database"
+  type        = string
+  default     = "default"
+}
+variable "db_database_version" {
+  description = "The version of the default database"
+  type        = string
+  default     = "default"
+}	
 
 variable "user_name" {
   description = "The name of the default user"
