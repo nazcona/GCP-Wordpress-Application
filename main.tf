@@ -1,56 +1,64 @@
-data "google_billing_account" "acct" {
-  display_name = var.billing_acct
-  open         = true
-}
+# PERFORM BELOW IN GCLOUD
+# data "google_billing_account" "acct" {
+#   display_name = var.billing_acct
+#   open         = true
+# }
 
-resource "random_password" "password" {
-  length  = 16
-  number  = false
-  special = false
-  lower   = true
-  upper   = false
-}
+# resource "random_password" "password" {
+#   length  = 16
+#   number  = false
+#   special = false
+#   lower   = true
+#   upper   = false
+# }
 
-resource "google_project" "gcp-project" {
-  name            = var.project_name
-  project_id      = random_password.password.result
-  billing_account = data.google_billing_account.acct.id
-}
+# resource "google_project" "Terraform-GCP" {
+#   name            = "Terraform-GCP"
+#   project_id      = random_password.password.result
+#   billing_account = data.google_billing_account.acct.id
+# }
 
-resource "null_resource" "set-project" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
+# resource "null_resource" "set-project" {
+#   triggers = {
+#     always_run = "${timestamp()}"
+#   }
 
-  provisioner "local-exec" {
-    command = "gcloud config set project ${google_project.gcp-project.project_id}"
-  }
-}
+#   provisioner "local-exec" {
+#     command = "gcloud config set project ${google_project.Terraform-GCP.project_id}"
+#   }
+# }
 
-resource "null_resource" "unset-project" {
-  provisioner "local-exec" {
-    when    = destroy
-    command = "gcloud config unset project"
-  }
-}
+# resource "null_resource" "unset-project" {
+#   provisioner "local-exec" {
+#     when    = destroy
+#     command = "gcloud config unset project"
+#   }
+# }
 
-resource "null_resource" "enable-apis" {
-  depends_on = [
-    google_project.gcp-project,
-    null_resource.set-project
-  ]
-  triggers = {
-    always_run = "${timestamp()}" 
-  }
+# resource "null_resource" "enable-apis" {
+#   depends_on = [
+#     google_project.Terraform-GCP,
+#     null_resource.set-project
+#   ]
+#   triggers = {
+#     always_run = "${timestamp()}"
+#   }
 
-  provisioner "local-exec" {
-    command = <<-EOT
-        gcloud services enable compute.googleapis.com
-        gcloud services enable dns.googleapis.com
-        gcloud services enable storage-api.googleapis.com
-        gcloud services enable container.googleapis.com
-    EOT
-  }
+#   provisioner "local-exec" {
+#     command = <<-EOT
+#         gcloud services enable compute.googleapis.com
+#         gcloud services enable dns.googleapis.com
+#         gcloud services enable storage-api.googleapis.com
+#         gcloud services enable container.googleapis.com
+#     EOT
+#   }
+# }
+
+resource "google_compute_network" "vpc_network" {
+  project                 = "terraform-gcp-352718"
+  name                    = "VPC"
+  auto_create_subnetworks = false
+  routing_mode            = "GLOBAL"
 }
 
 resource "google_compute_subnetwork" "public1" {
@@ -88,21 +96,14 @@ resource "google_compute_subnetwork" "private2" {
   network       = google_compute_network.vpc_network.id
 }
 
-resource "google_compute_subnetwork" "private" {
+resource "google_compute_subnetwork" "private3" {
   name          = "private3"
   ip_cidr_range = var.private3_cidr
   region        = var.region
   network       = google_compute_network.vpc_network.id
 }
 
-resource "google_compute_network" "vpc_network" {
-  project                 = google_project.gcp-project.project_id
-  name                    = "VPC"
-  auto_create_subnetworks = false
-  routing_mode            = "GLOBAL"
-}
-
-#Cloud Router
+# Cloud Router
 resource "google_compute_router" "router" {
   name                          = "router"
   network                       = google_compute_network.vpc_network.id
@@ -112,33 +113,26 @@ resource "google_compute_router" "router" {
   }
 }
 
-#NAT
-
+# NAT
 resource "google_compute_router_nat" "nat" {
   name                               = "my-router-nat"
   router                             = google_compute_router.router.name
   region                             = google_compute_router.router.region
   nat_ip_allocate_option             = "AUTO_ONLY"
-  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNET_WORKS"
-
-  subnetwork {
-    name = "private1"
-    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
-  }
+  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
 }
 
-#Firewall
+# Firewall
 resource "google_compute_firewall" "allow_http" {
-  name    = var.firewall_name
+  name    = "allow-http-rule"
   network = google_compute_network.vpc_network.id
+  source_ranges = ["0.0.0.0/0"]
 
   allow {
     protocol = "icmp"
   }
-
   allow {
     protocol = "tcp"
-    ports    = ["80","443", "22", "3306"]
+    ports    = ["80", "443", "22", "3306"]
   }
 }
-

@@ -1,4 +1,5 @@
 provider "google" {
-  project = var.project_name
-  region  = var.region
+  project     = "Terraform-GCP"
+  region      = "us-central1"
+  credentials = file("serviceaccount.json")
 }
