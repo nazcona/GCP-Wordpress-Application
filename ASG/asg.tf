@@ -1,28 +1,28 @@
 
 resource "google_compute_target_pool" "default-target" {
-	region = var.asg_config["region"]
-	name = var.asg_config["target-pool-name"]
+	region = var.region
+	name = var.target-pool-name
 }
 
 
 resource "google_compute_autoscaler" "asg" {
-	zone = var.asg_config["zone"]
-	name = var.asg_config["autoscaler"]
+	zone = var.zone
+	name = var.autoscaler
 	target = google_compute_instance_group_manager.gmanager.id
 	autoscaling_policy {
-		max_replicas = var.asg_config["max_replicas"]
-		min_replicas = var.asg_config["min_replicas"]
-		cooldown_period = var.asg_config["cooldown_period"]
+		max_replicas = var.max_replicas
+		min_replicas = var.min_replicas
+		cooldown_period = var.cooldown_period
 	cpu_utilization {
-		target = var.asg_config["target"]
+		target = var.target
 		}
 	}
 }
 
 
 resource "google_compute_instance_group_manager" "gmanager" {
-	zone = var.asg_config["zone"]
-	name = var.asg_config["instance_group_manager_name"]
+	zone = var.zone
+	name = var.instance_group_manager_name
 	version {
 		instance_template = google_compute_instance_template.gcpteam-template.id
 		name = "primary"
@@ -33,15 +33,15 @@ resource "google_compute_instance_group_manager" "gmanager" {
 
 
 resource "google_compute_instance_template" "gcpteam-template" {
-	name = var.asg_config["instance_template_name"]
-	machine_type = var.asg_config["machine_type"]
+	name = var.instance_template_name
+	machine_type = var.machine_type
 	can_ip_forward = false
     metadata_startup_script = file("startup.sh")
     metadata = {
 		ssh-keys = "centos7:${file("~/.ssh/id_rsa.pub")}"
     }
 	disk {
-		source_image = var.asg_config["source_image"]
+		source_image = var.source_image
 	}
 	network_interface {
 		network = google_compute_network.vpc_network.self_link
@@ -50,8 +50,8 @@ resource "google_compute_instance_template" "gcpteam-template" {
 	}
 }
 
-resource "google_compute_firewall" "allow-http" {
-	name = var.asg_config["firewall_name"]
+resource "google_compute_firewall" "allow_http" {
+	name = var.firewall_name
 	network = google_compute_network.vpc_network.self_link
    
     allow {
@@ -62,6 +62,6 @@ resource "google_compute_firewall" "allow-http" {
 		protocol = "tcp"
 		ports = ["80","22"]
 	}
-	source_tags = [var.asg_config["network_tags"]]
+	
     source_ranges = [ "0.0.0.0/0" ]
 }
