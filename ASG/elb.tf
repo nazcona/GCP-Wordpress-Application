@@ -12,7 +12,7 @@ resource "google_compute_forwarding_rule" "default" {
 
 resource "google_compute_region_backend_service" "backend" {
   name          = "website-backend"
-  region        = "us-central1"
+  region        = var.region
   health_checks = [google_compute_health_check.hc.id]
 }
 
