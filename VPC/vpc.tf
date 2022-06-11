@@ -2,7 +2,7 @@
 resource "google_compute_network" "main" {
   name                    = "main"
   auto_create_subnetworks = false
-  project                 = "Terraform-GCP"
+  project                 = "gcpproject"
   routing_mode            = "GLOBAL"
 }
 
@@ -64,19 +64,19 @@ resource "google_compute_router_nat" "nat" {
   router                             = google_compute_router.router.name
   region                             = google_compute_router.router.region
   nat_ip_allocate_option             = "AUTO_ONLY"
+  
   source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
-
   subnetwork {
     name                               = "private1"
-    source_subnetwork_ip_ranges_to_nat = ["ALL_IP_RANGES"]
+    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
   subnetwork {
     name                               = "private2"
-    source_subnetwork_ip_ranges_to_nat = ["ALL_IP_RANGES"]
+    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
   subnetwork {
     name                               = "private3"
-    source_subnetwork_ip_ranges_to_nat = ["ALL_IP_RANGES"]
+    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
 }
 

@@ -1,28 +1,44 @@
 data "google_billing_account" "acct" {
-  display_name = "My Billing Account"
-  open         = true
+	display_name = "My Billing Account"
+	open = true
+}
+
+resource "random_password" "password" {
+	length = 16
+	number = false
+	special = false
+	lower = true
+	upper = false
+}
+
+resource "google_project" "gcpproject" {
+	name = "gcpproject"
+	project_id = random_password.password.result
+	billing_account = data.google_billing_account.acct.id
 }
 
 resource "null_resource" "set-project" {
-  triggers = {
+	 triggers = {
     always_run = "${timestamp()}"
   }
-
-  provisioner "local-exec" {
-    command = "gcloud config set project ${google_project.Terraform-GCP.project_id}"
-  }
+	
+	provisioner "local-exec" {
+	command = "gcloud config set project ${google_project.gcpproject.project_id}"
+	}
 }
 
 resource "null_resource" "unset-project" {
-  provisioner "local-exec" {
-    when    = destroy
-    command = "gcloud config unset project"
-  }
+	provisioner "local-exec" {
+	when = destroy
+	command = "gcloud config unset project"
+	}
 }
+
+
 
 resource "null_resource" "enable-apis" {
   depends_on = [
-    google_project.Terraform-GCP,
+    google_project.gcpproject,
     null_resource.set-project
   ]
   triggers = {
