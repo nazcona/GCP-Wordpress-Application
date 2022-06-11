@@ -2,8 +2,8 @@
     "builders": [
       {
         "type": "googlecompute",
-        "project_id": var.project-id,
-        "source_image": "centos-7-v20200403",
+        "project_id": "var.project",
+        "source_image": "centos-7-v20220519",
         "ssh_username": "packer",
         "zone": "us-central1-a",
         "image_name": "gcp-project-{{timestamp}}"
