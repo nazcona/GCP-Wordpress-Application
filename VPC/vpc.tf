@@ -60,22 +60,22 @@ resource "google_compute_router" "router" {
 
 # NAT Gateway
 resource "google_compute_router_nat" "nat" {
-  name                               = "nat"
-  router                             = google_compute_router.router.name
-  region                             = google_compute_router.router.region
-  nat_ip_allocate_option             = "AUTO_ONLY"
-  
+  name                   = "nat"
+  router                 = google_compute_router.router.name
+  region                 = google_compute_router.router.region
+  nat_ip_allocate_option = "AUTO_ONLY"
+
   source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
   subnetwork {
-    name                               = "private1"
+    name                    = "private1"
     source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
   subnetwork {
-    name                               = "private2"
+    name                    = "private2"
     source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
   subnetwork {
-    name                               = "private3"
+    name                    = "private3"
     source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
 }
