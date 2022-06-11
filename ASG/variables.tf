@@ -1,43 +1,115 @@
-variable "vm_config" {
-	type = map
-	default = {
-        vpc_name = "VPC"
-		region = "us-central1"
-		zone = "us-central-c"
-		instance_name = "GCPteam-instance"
-		machine_type = "n1-standard-1"
-		image = "centos-cloud/centos-7"
-		firewall_name = "http-fw" 
-		network_tags = "http-server"
-	}
+variable "vpc_name" {
+  type        = string
+  description = "Please provide a VPC name"
+  default     = ""
 }
 
-variable "labels" {
-	type = map(any)
-	default = {
-		env = "stage"
-		team = "GCPteam"
-        name = "wordpress"
-        
-    }
+variable "region" {
+  type        = string
+  description = "Please provide a region"
+  default     = ""
 }
 
-variable "asg_config" {
-	type = map(any)
-	default = {
-		region = "us-central1"
-		zone = "us-central-c"
-		target-pool-name = "GCPteam-target-pool"
-		autoscaler = "GCPteam-autoscaler"
-		max_replicas = 4
-		min_replicas = 1
-		cooldown_period = 60
-		target = 0.5
-		instance_group_manager_name = "group-manager"
-		instance_template_name = "my-instance-template"
-		machine_type = "n1-standard-1"
-		source_image = "centos-cloud/centos-7"
-        network_tags = "http-server"
-        firewall_name = "http-fw" 
-	}
+variable "zone" {
+  type        = string
+  description = "Please provide a zone"
+  default     = ""
 }
+
+variable "instance_name" {
+  description = "Please provide an instance_name"
+  type        = string
+  default     = ""
+}
+
+variable "machine_type" {
+  description = "Please provide a machine_type"
+  type        = string
+  default     = ""
+}
+
+variable "image" {
+  description = "Please provide an image"
+  type        = string
+  default     = ""
+}
+
+variable "firewall_name" {
+  description = "Please provide a firewall_name for instances"
+  type        = string
+  default     = ""
+}
+
+
+
+variable "target-pool-name" {
+  description = "Please provide a target-pool-name"
+  type        = string
+  default     = ""
+}
+
+variable "autoscaler" {
+  description = "Please provide an autoscaler"
+  type        = string
+  default     = ""
+}
+
+variable "max_replicas" {
+  description = "Please provide a max_replicas"
+  type        = string
+  default     = ""
+
+}
+
+variable "min_replicas" {
+  description = "Please provide a min_replicas"
+  type        = string
+  default     = ""
+
+}
+
+
+variable "cooldown_period" {
+  description = "Please provide a cooldown_period"
+  type        = string
+  default     = ""
+
+}
+
+variable "target" {
+  description = "Please provide a target"
+  type        = string
+  default     = ""
+}
+
+
+variable "instance_group_manager_name" {
+  description = "Please provide an instance_group_manager_name"
+  type        = string
+  default     = ""
+}
+
+variable "instance_template_name" {
+  description = "Please provide an instance_template_name"
+  type        = string
+  default     = ""
+}
+
+variable "source_image" {
+  description = "Please provide a source_image"
+  type        = string
+  default     = ""
+}
+
+variable "network_tags" {
+  description = "Please provide a network_tags"
+  type        = string
+  default     = ""
+}
+
+
+
+
+
+
+
