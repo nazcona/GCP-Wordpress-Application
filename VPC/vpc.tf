@@ -50,8 +50,9 @@ resource "google_compute_subnetwork" "private3" {
 
 # Router
 resource "google_compute_router" "router" {
-  name    = "router"
-  network = google_compute_network.main.id
+  name                          = "router"
+  network                       = google_compute_network.main.id
+  encrypted_interconnect_router = true
   bgp {
     asn            = 64514
     advertise_mode = "CUSTOM"
