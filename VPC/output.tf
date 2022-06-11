@@ -1,5 +1,5 @@
 # output "VPC" {
-#   value = google_compute_network.vpc_network.id
+#   value = google_compute_network.main.id
 # }
 
 # output "vpc_cidr_block" {
@@ -19,7 +19,7 @@
 # }
 
 # output "vpc_arn" {
-#   value = google_compute_network.vpc_network.arn
+#   value = google_compute_network.main.arn
 
 # }
 

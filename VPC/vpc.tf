@@ -83,7 +83,7 @@ resource "google_compute_router_nat" "nat" {
 # Firewall
 resource "google_compute_firewall" "allow_http" {
   name          = "allow-http"
-  network       = google_compute_network.vpc_network.id
+  network       = google_compute_network.main.id
   source_ranges = ["0.0.0.0/0"]
 
   allow {
