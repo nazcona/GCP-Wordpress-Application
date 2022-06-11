@@ -40,7 +40,7 @@ resource "null_resource" "enable-apis" {
     null_resource.set-project
   ]
   triggers = {
-    always_run = "${timestamp()}" 
+    always_run = "${timestamp()}"
   }
 
   provisioner "local-exec" {
