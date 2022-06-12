@@ -6,7 +6,7 @@ resource "google_compute_forwarding_rule" "default" {
   load_balancing_scheme = "INTERNAL"
   backend_service       = google_compute_region_backend_service.backend.id
   all_ports             = true
-  network               = google_compute_network.vpc_network.self_link
+  network               = google_compute_network.main.id
   
 }
 
@@ -22,7 +22,7 @@ resource "google_compute_health_check" "hc" {
   timeout_sec        = 1
 
   tcp_health_check {
-    port = "3306"
+    port = "80"
   }
 }
 
