@@ -16,6 +16,43 @@ variable "zone" {
   default     = ""
 }
 
+variable "public1_cidr" {
+  description = "Provide Public1 Subnet IP cidr range"
+  type        = string
+  default     = ""
+}
+
+variable "public2_cidr" {
+  description = "Provide Public2 Subnet IP cidr range"
+  type        = string
+  default     = ""
+}
+
+variable "public3_cidr" {
+  description = "Provide Public3 Subnet IP cidr range"
+  type        = string
+  default     = ""
+}
+
+variable "private1_cidr" {
+  description = "Provide Private1 Subnet IP cidr range"
+  type        = string
+  default     = ""
+}
+
+variable "private2_cidr" {
+  description = "Provide Private2 Subnet IP cidr range"
+  type        = string
+  default     = ""
+}
+
+variable "private3_cidr" {
+  description = "Provide Private3 Subnet IP cidr range"
+  type        = string
+  default     = ""
+}
+
+
 variable "instance_name" {
   description = "Please provide an instance_name"
   type        = string
@@ -106,6 +143,8 @@ variable "network_tags" {
   type        = string
   default     = ""
 }
+
+
 
 
 
