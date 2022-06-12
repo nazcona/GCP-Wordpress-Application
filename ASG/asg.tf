@@ -1,7 +1,8 @@
 
 resource "google_compute_target_pool" "default-target" {
-  region = var.region
-  name   = var.target-pool-name
+  region  = var.region
+  project = google_project.gcp-project.project_id
+  name    = var.target-pool-name
 }
 
 
@@ -44,9 +45,25 @@ resource "google_compute_instance_template" "gcpteam-template" {
     source_image = var.source_image
   }
   network_interface {
-    network = google_compute_network.main.id
+    network    = google_compute_network.main.id
+    subnetwork = google_compute_subnetwork.public1.id
     access_config {
     }
+  }
+}
+
+# Firewall
+resource "google_compute_firewall" "allow_http" {
+  name          = "allow-http"
+  network       = google_compute_network.main.id
+  source_ranges = ["0.0.0.0/0"]
+
+  allow {
+    protocol = "icmp"
+  }
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "443", "22", "3306"]
   }
 }
 

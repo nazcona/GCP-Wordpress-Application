@@ -1,8 +1,8 @@
 # VPC
 resource "google_compute_network" "main" {
   name                    = "main"
+  project                 = google_project.gcp-project.project_id
   auto_create_subnetworks = false
-  project                 = "gcpproject"
   routing_mode            = "GLOBAL"
 }
 
@@ -50,9 +50,8 @@ resource "google_compute_subnetwork" "private3" {
 
 # Router
 resource "google_compute_router" "router" {
-  name                          = "router"
-  network                       = google_compute_network.main.id
-  encrypted_interconnect_router = true
+  name    = "router"
+  network = google_compute_network.main.id
   bgp {
     asn            = 64514
     advertise_mode = "CUSTOM"
@@ -81,17 +80,3 @@ resource "google_compute_router_nat" "nat" {
   }
 }
 
-# Firewall
-resource "google_compute_firewall" "allow_http" {
-  name          = "allow-http"
-  network       = google_compute_network.main.id
-  source_ranges = ["0.0.0.0/0"]
-
-  allow {
-    protocol = "icmp"
-  }
-  allow {
-    protocol = "tcp"
-    ports    = ["80", "443", "22", "3306"]
-  }
-}
