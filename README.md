@@ -68,3 +68,18 @@ resource "google_sql_database" "database" {
     You can connect to your db instance from Cloud Shell by using gcloud sql connect team3-db-instance --user=mammadova --quiet command
     Connect to your database instance, use show databases; query and make sure your db is created. this db will be used for wordpress connection
     If you see your db inside your db instance, you should be good. Move on
+
+Autoscaling
+
+    For handling increasings in traffic dynamically we used Autoscaling. It's adding/reducing capacity.
+
+    1.Create asg.tf file and add google_compute_autoscaler resource inside the file. Use gcloud compute images list command to list of available images in GCloud. For ex: we used centos-cloud/centos-7
+
+
+    2.Add google_compute_instance_template resource in asg.tf file. No matter how many instances are in your instance group, they will be created from this template. Use gcloud compute machine-types list command to list all available machine types in GCloud.
+
+    3. Also add your google_compute_instance_group_manager, google_compute_target_pool, and google_compute_firewall resource in asg.tf file as well for handling firewall and targets groups.
+
+    4.Add variables.tf file inside your ASG folder. Variables file will allow you to have your scripts more dynamic. Instead of hardcoding the data inside your resources, variables.tf file will give you opportunity to keep your data inside it and fetch from another file as long as the files share same root.
+    
+    5.Add startup.sh file for bootstrapping. It means whatever command like you in this file, it will be launching during the instance provisioning. Please see metadata_startup_script = file("startup.sh") line under google_compute_instance_template
