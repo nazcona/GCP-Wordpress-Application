@@ -1,5 +1,5 @@
 variable "region" {
-  default     = ""
+  default     = "us-central1"
   description = "Please provide a region to build a VPC"
   type        = string
 }
