@@ -1,5 +1,19 @@
 # GCP-Wordpress-Application
 
+#### Befor you start
+> Please make sure you enabled all GCP api's you needed.
+
+Run `bash enableapis.sh` command to enable them
+
+```
+#!/bin/bash
+gcloud services enable compute.googleapis.com
+gcloud services enable dns.googleapis.com
+gcloud services enable storage-api.googleapis.com
+gcloud services enable container.googleapis.com
+
+```
+
 ### VPC module
 
 >    In this project, we used regional VPC, because it provided us managed in specific virtual network of our Gcloud resources through subnets.
