@@ -1,6 +1,6 @@
 # GCP-Wordpress-Application
 
-VPC module
+## VPC module
 
     In this project, we used regional VPC, because it provided us managed in specific virtual network of our Gcloud resources through subnets.
 
@@ -31,7 +31,7 @@ resource "google_compute_network" "vpc_network" {
 
 Note: there is also Default VPC in GCP. Please find your newly created VPC
 
-Database
+## Database
 
     Google Cloud SQL is managed database service and it allows us to run MySQL, PosgreSQL on GCloud.
 
@@ -69,7 +69,7 @@ resource "google_sql_database" "database" {
     Connect to your database instance, use show databases; query and make sure your db is created. this db will be used for wordpress connection
     If you see your db inside your db instance, you should be good. Move on
 
-Autoscaling
+## Autoscaling
 
     For handling increasings in traffic dynamically we used Autoscaling. It's adding/reducing capacity.
 
