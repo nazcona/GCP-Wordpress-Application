@@ -1,4 +1,3 @@
-vpc_name                    = "VPC"
 region                      = "us-central1"
 zone                        = "us-central1-c"
 instance_name               = "gcpteam-instance"
